@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.himynameisvlad/pokemon-mcp-server",
+  "name": "io.github.himynameisvlad/pokemon",
   "description": "MCP server for Pokemon data",
   "repository": {
     "url": "https://github.com/himynameisvlad/pokemon-mcp-server",

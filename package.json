@@ -4,7 +4,7 @@
   "description": "MCP server for Pokemon data",
   "type": "module",
   "bin": {
-    "pirog-mcp": "build/index.js"
+    "pokemon-mcp-server": "build/index.js"
   },
   "scripts": {
     "build": "tsc",

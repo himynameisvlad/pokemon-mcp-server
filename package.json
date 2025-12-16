@@ -4,7 +4,7 @@
   "description": "MCP server for Pokemon data",
   "type": "module",
   "bin": {
-    "pirog-mcp": "./build/index.js"
+    "pirog-mcp": "build/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -18,9 +18,9 @@
   ],
   "author": "",
   "license": "MIT",
-    "repository": {
+  "repository": {
     "type": "git",
-    "url": "https://github.com/himynameisvlad/pokemon-mcp-server.git"
+    "url": "git+https://github.com/himynameisvlad/pokemon-mcp-server.git"
   },
   "mcpName": "io.github.himynameisvlad/pokemon",
   "dependencies": {
@@ -30,5 +30,10 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "typescript": "^5.7.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/himynameisvlad/pokemon-mcp-server/issues"
+  },
+  "homepage": "https://github.com/himynameisvlad/pokemon-mcp-server#readme",
+  "main": "index.js"
 }

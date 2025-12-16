@@ -18,6 +18,11 @@
   ],
   "author": "",
   "license": "MIT",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/himynameisvlad/pokemon-mcp-server.git"
+  },
+  "mcpName": "io.github.himynameisvlad/pokemon",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
     "zod": "^3.24.1"

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webstandardstreamablehttp.js";
 import { z } from "zod";
-import express, { Request, Response } from "express";
-import cors from "cors";
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
+import { cors } from "hono/cors";
 
 const POKEAPI_BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -200,24 +201,24 @@ server.registerTool(
 );
 
 async function main() {
-  const app = express();
+  const app = new Hono();
   const PORT = 8000;
 
-  app.use(cors());
-  app.use(express.json());
+  app.use("/*", cors());
 
-  app.get("/health", (_req: Request, res: Response) => {
-    res.json({ status: "ok" });
+  app.get("/health", (c) => {
+    return c.json({ status: "ok" });
   });
 
-  app.post("/sse", async (_req: Request, res: Response) => {
-    const transport = new SSEServerTransport("/message", res);
-    await server.connect(transport);
+  const transport = new WebStandardStreamableHTTPServerTransport();
+  await server.connect(transport);
+
+  app.all("/mcp", async (c) => {
+    return await transport.handleRequest(c.req.raw);
   });
 
-  app.listen(PORT, () => {
-    console.error(`Pokemon MCP Server running on http://localhost:${PORT}`);
-  });
+  console.error(`Pokemon MCP Server running on http://localhost:${PORT}`);
+  serve({ fetch: app.fetch, port: PORT });
 }
 
 main().catch((error) => {

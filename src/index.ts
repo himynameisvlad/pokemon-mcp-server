@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { z } from "zod";
+import express, { Request, Response } from "express";
+import cors from "cors";
 
 const POKEAPI_BASE_URL = "https://pokeapi.co/api/v2";
 
@@ -198,9 +200,24 @@ server.registerTool(
 );
 
 async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("Pokemon MCP Server running on stdio");
+  const app = express();
+  const PORT = 8000;
+
+  app.use(cors());
+  app.use(express.json());
+
+  app.get("/health", (_req: Request, res: Response) => {
+    res.json({ status: "ok" });
+  });
+
+  app.post("/sse", async (_req: Request, res: Response) => {
+    const transport = new SSEServerTransport("/message", res);
+    await server.connect(transport);
+  });
+
+  app.listen(PORT, () => {
+    console.error(`Pokemon MCP Server running on http://localhost:${PORT}`);
+  });
 }
 
 main().catch((error) => {
